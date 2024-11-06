@@ -5,7 +5,6 @@ class KushoCli < Formula
   sha256 "78d1dc384913f0b3bafc13a8895284e1380832bf70c6346c0bfabf7f2f0aece8"
   version "1.0.0"
 
-  depends_on "uuidgen" # Ensures uuidgen is available
 
   def install
     bin.install "kusho-cli"  # Ensure your script is named 'kusho-cli' in the repo
