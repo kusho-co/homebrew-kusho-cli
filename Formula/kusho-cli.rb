@@ -7,7 +7,9 @@ class KushoCli < Formula
 
 
   def install
-    bin.install "kusho-cli"  # Ensure your script is named 'kusho-cli' in the repo
+    chmod "+x", "kusho-cli.sh"
+    bin.install "kusho-cli.sh" => "kusho-cli"
+    chmod "+x", "#{bin}/kusho-cli"
   end
 
   test do
