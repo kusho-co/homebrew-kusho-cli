@@ -1,7 +1,7 @@
 class KushoCli < Formula
   desc "Kusho CLI - a bash script packaged for Homebrew"
   homepage "https://github.com/kusho-co/kusho-cli-brew"
-  url "https://github.com/kusho-co/kusho-cli-brew/archive/refs/tags/v1.0.0.tar.gz"
+  url "https://github.com/kusho-co/kusho-cli-brew/archive/refs/tags/v1.0.3.tar.gz"
   sha256 "312e5d6a552eb561cc3306beb7546fd1e52bad5011a06ad35c9a2f08b700c299"
   version "1.0.0"
 
