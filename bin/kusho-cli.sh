@@ -20,11 +20,10 @@ mkdir -p "$CONFIG_DIR"
 
 if [[ -f "$UUID_FILE" ]]; then
     saved_uuid=$(cat "$UUID_FILE")
-    echo "Saved UUID: $saved_uuid"
 else
     new_uuid=$(uuidgen)
+    saved_uuid="$new_uuid"
     echo "$new_uuid" > "$UUID_FILE"
-    echo "New UUID generated and saved: $new_uuid"
 fi
 
 
@@ -50,7 +49,7 @@ path_params=${path_params:-"{}"}
 read -r -p "Enter query parameters as a JSON string (e.g., {\"key\":\"value\"}): " query_params
 query_params=${query_params:-"{}"}
 
-read -r -p "Enter JSON body (optional, e.g., {\"data\":\"value\"}): " json_body
+read -r -p "Enter JSON body (e.g., {\"data\":\"value\"}): " json_body
 json_body=${json_body:-"{}"}
 
 
@@ -80,8 +79,9 @@ EOF
 
 test_cases=()
 clear
-curl -X POST "http://localhost:8080/vscode/generate/streaming" \
+curl -X POST "https://be.kusho.ai/vscode/generate/streaming" \
      -H "Content-Type: application/json" \
+     -H "X-KUSHO-SOURCE: brew" \
      -d "$json_payload" --no-buffer | while read -r line; do
     
     if [[ "$line" == "[DONE]" ]]; then
@@ -176,6 +176,18 @@ while true; do
                 echo ""
                 curl -X "$method" "$url" $curl_headers -H "Content-Type: application/json" -d "$json_body"
                 echo ""
+                
+                json_payload=$(cat <<EOF
+                {
+                "name": "brew_run",
+                "machine_id": "$saved_uuid"
+                }
+                EOF
+                )
+
+                curl -s -X POST "https://be.kusho.ai/events/log/public" \
+                    -H "Content-Type: application/json" \
+                    -d "$json_payload" > /dev/null
             done
             ;;
         3)
